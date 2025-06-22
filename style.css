@@ -1,0 +1,257 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f7f7f7;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.game-container {
+    width: 90vw;
+    max-width: 800px; 
+    height: 200px; 
+    border-bottom: 2px solid #333;
+    position: relative;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.ground {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%; 
+    height: 2px;
+    background-color: #333;
+    animation: groundMove 5s linear infinite; 
+}
+
+@keyframes groundMove {
+    from {
+        transform: translateX(0 );
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.dino {
+    width: 50px;
+    height: 54px; 
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+    background-image: url('dino.png'); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: bottom 0.1s linear; 
+}
+
+
+.obstacle {
+    position: absolute;
+    bottom: 0;
+    background-image: url('cactus.png'); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.pterodactyl {
+    position: absolute;
+    width: 50px; /* Largura do pterodáctilo */
+    height: 18px; /* Altura do pterodáctilo */
+    background-image: url('pterodactyl.png'); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Estilo para o item coletável (Coração/Carta de Amor) */
+.collectible-item {
+    position: absolute;
+    bottom: 20px; /* Altura fixa acima do chão */
+    background-image: url('heart_item.png'); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.score {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #333;
+}
+
+.start-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    color: #555;
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+}
+
+.game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    color: #f00;
+    display: none;
+    text-align: center;
+}
+
+/* NOVOS ESTILOS PARA A MENSAGEM DE AMOR */
+.love-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ff007f;
+    display: none; /* Apenas display: none; aqui */
+    text-align: center;
+    width: 100%;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    
+    flex-direction: column; /* Conteúdo empilhado verticalmente */
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: center; /* Centraliza verticalmente */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.love-text {
+    font-size: 30px; /* Tamanho específico para o texto */
+    margin-bottom: 20px; /* Espaço entre o texto e as imagens */
+}
+
+.love-images-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que as imagens quebrem a linha */
+    justify-content: center; /* Centraliza as imagens */
+    gap: 10px; /* Espaço entre as imagens */
+    margin-bottom: 20px; /* Espaço entre as imagens e os corações */
+}
+
+.love-images-container img {
+    width: 100px; /* Largura fixa para as imagens */
+    height: 100px; /* Altura fixa para as imagens */
+    object-fit: cover; /* Corta a imagem para preencher o espaço */
+    border-radius: 50%; /* Deixa as imagens circulares */
+    border: 3px solid #ff007f; /* Borda rosa */
+    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Sombra opcional */
+}
+
+/* Contêiner para os corações */
+.hearts-container {
+    position: absolute; /* Posicionado absolutamente dentro de .love-message */
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Permite cliques passarem por ele */
+    overflow: hidden; /* Esconde corações que saem do contêiner */
+}
+
+/* Estilo de um único coração */
+.heart {
+    position: absolute;
+    background-color: #ff007f; /* Cor do coração */
+    transform: rotate(-45deg); /* Gira para formar um diamante */
+    animation: riseAndFade 3s ease-out forwards; /* Animação de subir e desaparecer */
+    opacity: 0; /* Começa invisível */
+}
+
+/* Partes para formar o coração */
+.heart::before,
+.heart::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #ff007f;
+    border-radius: 50%;
+}
+
+.heart::before {
+    top: -50%;
+    left: 0;
+}
+
+.heart::after {
+    top: 0;
+    left: 50%;
+}
+
+/* Animação dos corações */
+@keyframes riseAndFade {
+    0% {
+        transform: translate(-50%, 0) rotate(-45deg);
+        opacity: 1;
+        bottom: 0;
+    }
+    100% {
+        transform: translate(-50%, -200px) rotate(-45deg); /* Sobe */
+        opacity: 0; /* Desaparece */
+        bottom: 100%; /* Vai para fora da tela */
+    }
+}
+
+/* Estilo para os corações que explodem ao coletar um item */
+.heart-burst {
+    position: absolute;
+    background-color: #ff007f; /* Cor do coração */
+    transform: rotate(-45deg);
+    width: 15px; /* Tamanho menor para os corações da explosão */
+    height: 15px;
+    opacity: 1; /* Começa visível */
+  
+}
+
+.heart-burst::before,
+.heart-burst::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #ff007f;
+    border-radius: 50%;
+}
+
+.heart-burst::before {
+    top: -50%;
+    left: 0;
+}
+
+.heart-burst::after {
+    top: 0;
+    left: 50%;
+}
+
+/* Animação para a explosão de corações */
+@keyframes burstHeartAnimation {
+    0% {
+        left: var(--start-x);
+        top: var(--start-y);
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+    }
+    100% {
+        left: var(--end-x);
+        top: var(--end-y);
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(-45deg) scale(0.5);
+    }
+}

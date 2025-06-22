@@ -1,1 +1,1 @@
-# dinogamepreto
+# dino-game-do-preto
